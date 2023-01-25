@@ -1,0 +1,15 @@
+.box {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+.input {
+  position: fixed;
+  color: black;
+  width: 400px;
+  height: 30px;
+  padding: 1;
+  border: 1;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
