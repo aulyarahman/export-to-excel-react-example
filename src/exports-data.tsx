@@ -208,51 +208,45 @@ export const PagesExport = () => {
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet("Sheet1");
     worksheet.addRow(headers);
+    worksheet.getCell("S1").value = "LEAD TIME (JAM)";
 
-    const subHeader = [];
-    // NDC STOCK
-    subHeader[6] = "PCS";
-    subHeader[7] = "KOLI";
-    subHeader[8] = "PALET";
-    // CO MINGGUAN
-    subHeader[9] = "KOLI";
-    subHeader[10] = "PCS";
-    subHeader[11] = "STORAGE NDC";
-    // LEAD TIME
-    subHeader[12] = "TIMBANG";
-    subHeader[13] = "PREMIX";
-    subHeader[14] = "OLAH 1";
-    subHeader[15] = "OLAH 2";
-    subHeader[16] = "KEMAS";
-    subHeader[17] = "LAIN LAIN";
-    subHeader[18] = "TOTAL";
-    // CRITICAL POINT
-    subHeader[19] = "SAFETY";
-    subHeader[20] = "SAFETY";
-    subHeader[21] = "SAFETY";
-    subHeader[22] = "ROP";
-    subHeader[23] = "ROP";
-    subHeader[24] = "ROP";
-    subHeader[25] = "MAXIMUM";
-    subHeader[26] = "MAXIMUM";
-    subHeader[27] = "MAXIMUM";
+    const subHeader = {
+      6: "PCS",
+      7: "KOLI",
+      8: "PALET",
+      9: "KOLI",
+      10: "PCS",
+      11: "STORAGE NDC",
+      12: "TIMBANG",
+      13: "PREMIX",
+      14: "OLAH 1",
+      15: "OLAH 2",
+      16: "KEMAS",
+      17: "LAIN LAIN",
+      18: "TOTAL",
+      19: "SAFETY",
+      20: "SAFETY",
+      21: "SAFETY",
+      22: "ROP",
+      23: "ROP",
+      24: "ROP",
+      25: "MAXIMUM",
+      26: "MAXIMUM",
+      27: "MAXIMUM",
+    };
 
-    worksheet.addRow(subHeader);
+    const subChildHeaders = {
+      19: "PCS",
+      20: "KOLI",
+      21: "STRG NDC",
+      22: "PCS",
+      23: "KOLI",
+      24: "STRG NDC",
+      25: "PCS",
+      26: "koli",
+      27: "STRG NDC",
+    };
 
-    const subsHeader2 = [];
-
-    // CRITICAL POINT NESTED HEADERS
-    subsHeader2[19] = "PCS";
-    subsHeader2[20] = "KOLI";
-    subsHeader2[21] = "STRG NDC";
-    subsHeader2[22] = "PCS";
-    subsHeader2[23] = "KOLI";
-    subsHeader2[24] = "STRG NDC";
-    subsHeader2[25] = "PCS";
-    subsHeader2[26] = "KOLI";
-    subsHeader2[27] = "STRG NDC";
-
-    worksheet.addRow(subsHeader2);
     const cellsMerge = [
       "A1:A3",
       "B1:B3",
@@ -278,9 +272,11 @@ export const PagesExport = () => {
       "S1:AA1",
     ];
 
-    cellsMerge.forEach((v) => {
-      worksheet.mergeCells(v);
-    });
+    worksheet.addRow(Object.values(subHeader));
+
+    worksheet.addRow(Object.values(subChildHeaders));
+
+    cellsMerge.forEach((v) => worksheet.mergeCells(v));
 
     newData.forEach((item, k, arr) => {
       const arrKeys = arr.length + k + 2;
@@ -349,7 +345,7 @@ export const PagesExport = () => {
       });
       const link = document.createElement("a");
       link.href = window.URL.createObjectURL(blob);
-      link.download = `sku_config_${new Date().toDateString()}.xlxs`;
+      link.download = `sku_config_${new Date().toDateString()}.xlsx`;
       link.click();
     });
   };
